@@ -1,0 +1,25 @@
+<div class="container">
+	<div class="card">
+		<div class="head">
+			 <h2>Inicio de sesión</h2>
+		</div>
+		<div class="body">
+			<form [formGroup]="loginForm" class="example-form">
+				<mat-form-field class="example-full-width">
+				  <input matInput type="email" placeholder="Correo" formControlName="user">
+          <mat-error *ngIf="user?.hasError('required')">El correo es requerido</mat-error>
+        </mat-form-field>
+			  
+				<mat-form-field class="example-full-width">
+				  <input matInput type="password" placeholder="Contraseña" formControlName="password">
+          <mat-error *ngIf="password?.hasError('required')">La contraseña es requerida</mat-error>
+        </mat-form-field>
+			  
+				<button mat-raised-button color="primary" (click)="login()">Iniciar Sesión</button>
+      </form>
+		</div>
+		<div class="footer">
+
+		</div>
+	</div>
+</div>
