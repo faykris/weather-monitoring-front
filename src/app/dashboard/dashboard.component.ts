@@ -12,6 +12,7 @@ Chart.register(...registerables);
 export class DashboardComponent {
   public sensors: any[] = [];
   public selectedSensor: any = null;
+  public showMenu = false;
 
   @ViewChild('temperatureCanvas') temperatureCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('humidityCanvas') humidityCanvas!: ElementRef<HTMLCanvasElement>;
@@ -34,6 +35,13 @@ export class DashboardComponent {
 
   ngOnInit() {
     this.getSensors();
+  }
+
+  setShowMenu() {
+    this.showMenu = true;
+  }
+  setCloseMenu() {
+    this.showMenu = false;
   }
 
   ngAfterViewInit(): void {
@@ -263,5 +271,6 @@ export class DashboardComponent {
 
   selectSensor(sensor: any) {
     this.selectedSensor = sensor;
+    this.showMenu = false;
   }
 }

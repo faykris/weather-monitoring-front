@@ -1,3 +1,17 @@
+<div class="menu-shadow" [ngClass]="showMenu ? 'show-menu': ''">
+  <div class="menu">
+    <img src="assets/icons/icon-menu-close.svg" width="20" (click)="setCloseMenu()">
+    <ul>
+      <li *ngFor="let sensor of sensors" (click)="selectSensor(sensor)">
+        {{ sensor.sensor_name }}
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="navbar">
+  <img src="assets/icons/icon-menu.svg" width="20" height="15" (click)="setShowMenu()">
+</div>
 <div class="container">
   <div class="aside">
     <ul>
