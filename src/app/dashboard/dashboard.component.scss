@@ -1,0 +1,73 @@
+.container {
+  width: 100%;
+  height: 100%;
+  padding: 3vw;
+  display: flex;
+  box-shadow: 2px 2px 15px 5px rgba(0, 0, 0, 0.2);
+  .aside {
+    width: 20vw;
+    background-color: var(--soft-blue);
+    color: white;
+    padding: 1rem 0;
+    border-radius: 10px 0 0 10px;
+    ul {
+      padding: 0;
+      list-style: none;
+      li {
+        padding: .7rem;
+        transition: all .3s;
+        cursor: pointer;
+        &:hover {
+          background-color: var(--medium-blue);
+        }
+      }
+    }
+  }
+  .screen {
+    width: 80%;
+    display: flex;
+    background-color: #eaeefd;
+    justify-content: center;
+    border-radius: 0 10px 10px 0;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    .title {
+      width: 100%;
+      height: 4rem;
+      border-radius: 10px 10px 0 0;
+      color: var(--medium-blue);
+      font-weight: 700;
+      padding: 1rem;
+      background-color: white;
+      box-shadow: 3px 2px 20px 1px rgba(0, 0, 90, 0.2);
+      h1 {
+        font-size: 20px;
+        margin: 0;
+      }
+    }
+    .card {
+      box-shadow: 2px 2px 15px 5px rgba(0, 0, 0, 0.2);
+      background-color: white;
+      .body {
+        padding: 1rem;
+        display: flex;
+        width: 50vw;
+        justify-content: center;
+        flex-wrap: wrap;
+        border-radius: 0 0 10px 10px;
+        .record {
+          width: 20vw;
+        }
+      }
+    }
+  }
+}
+canvas {
+  border-radius: 10px;
+  box-shadow: 2px 2px 20px 1px rgba(0, 0, 90, 0.2);
+  background-color: white;
+  margin-bottom: 2rem;
+  padding: 1.5vw;
+  width: 50vw !important;
+  min-width: 17rem;
+}

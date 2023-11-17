@@ -10,16 +10,22 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from "@angular/common/http";
+import { DashboardComponent } from './dashboard/dashboard.component';
+// import { NgChartsModule  } from 'ng2-charts';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    DashboardComponent,
   ],
   imports: [
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
+    // NgChartsModule,
+    HttpClientModule,
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,

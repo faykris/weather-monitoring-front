@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="aside">
+    <ul>
+      <li *ngFor="let sensor of sensors" (click)="selectSensor(sensor)">
+        {{ sensor.sensor_name }}
+      </li>
+    </ul>
+  </div>
+  <div class="screen">
+    <div *ngIf="selectedSensor?.sensor_name" class="title">
+      <h1>{{selectedSensor?.sensor_name}}</h1>
+    </div>
+    <div [ngSwitch]="selectedSensor?.sensor_id">
+      <canvas *ngSwitchCase="1" #temperatureCanvas></canvas>
+      <canvas *ngSwitchCase="1" #humidityCanvas></canvas>
+      <canvas *ngSwitchCase="2" #pressureCanvas></canvas>
+      <canvas *ngSwitchCase="2" #windSpeedCanvas></canvas>
+      <canvas *ngSwitchCase="3" #noiseLevelCanvas></canvas>
+      <canvas *ngSwitchCase="3" #airQualityCanvas></canvas>
+    </div>
+  </div>
+</div>

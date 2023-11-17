@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {MainService} from "./main.service";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'weather-monitoring-front';
+  @Input() isLogged!: boolean;
+  @Output() isLoggedChange = new EventEmitter<boolean>();
+  //isLogged: boolean = false;
+
 }

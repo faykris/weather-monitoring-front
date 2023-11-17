@@ -1,1 +1,7 @@
-<app-login></app-login>
+<app-login
+  *ngIf="!isLogged"
+  [(isLogged)]="isLogged"
+></app-login>
+<app-dashboard
+  *ngIf="isLogged"
+></app-dashboard>
