@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class MainService {
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = 'https://weather-monitoring-back-6e19852c45b2.herokuapp.com';
   public isLogged = false;
   public sensors: any[] = [];
 

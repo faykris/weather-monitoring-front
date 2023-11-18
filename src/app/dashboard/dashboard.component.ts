@@ -1,6 +1,7 @@
 import {ChangeDetectorRef, Component, ElementRef, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {MainService} from "../main.service";
 import { Chart, registerables } from 'chart.js';
+import { io, Socket } from 'socket.io-client';
 Chart.register(...registerables);
 
 
@@ -13,6 +14,7 @@ export class DashboardComponent {
   public sensors: any[] = [];
   public selectedSensor: any = null;
   public showMenu = false;
+  public cronJobStatus: string = '';
 
   @ViewChild('temperatureCanvas') temperatureCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('humidityCanvas') humidityCanvas!: ElementRef<HTMLCanvasElement>;
@@ -34,6 +36,27 @@ export class DashboardComponent {
   ) {}
 
   ngOnInit() {
+    console.log('listen socket:');
+    const socket: Socket = io('https://weather-monitoring-back-6e19852c45b2.herokuapp.com', {
+      withCredentials: true,
+    });
+
+    socket.on('cronJobUpdate', (data: string) => {
+      this.cronJobStatus = data;
+      console.log(this.cronJobStatus);
+      this.mainService.getSensors().subscribe(
+        (response) => {
+          this.mainService.setSensors(response);
+          this.getSensors();
+          this.cdr.detectChanges();
+          // Puedes realizar acciones adicionales, como navegar a otra página
+        },
+        (error) => {
+          console.error('Error al traer el cron job:', error);
+        }
+      );
+    });
+
     this.getSensors();
   }
 
