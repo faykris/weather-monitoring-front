@@ -38,7 +38,7 @@ export class DashboardComponent {
   ngOnInit() {
     console.log('listen socket:');
     const socket: Socket = io('https://weather-monitoring-back-6e19852c45b2.herokuapp.com', {
-      withCredentials: true,
+      //withCredentials: true,
     });
 
     socket.on('cronJobUpdate', (data: string) => {
