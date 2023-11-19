@@ -48,6 +48,44 @@ export class DashboardComponent {
         (response) => {
           this.mainService.setSensors(response);
           this.getSensors();
+          console.log('sensors:', this.sensors);
+
+          this.temperatureCanvases.changes.subscribe((canvases: QueryList<ElementRef<HTMLCanvasElement>>) => {
+            if (canvases.length > 0 && this.selectedSensor?.sensor_id === 1) {
+              this.createTemperatureChart(this.processData(this.sensors));
+            }
+          });
+
+          this.humidityCanvases.changes.subscribe((canvases: QueryList<ElementRef<HTMLCanvasElement>>) => {
+            if (canvases.length > 0 && this.selectedSensor?.sensor_id === 1) {
+              this.createHumidityChart(this.processData(this.sensors));
+            }
+          });
+
+          this.pressureCanvases.changes.subscribe((canvases: QueryList<ElementRef<HTMLCanvasElement>>) => {
+            if (canvases.length > 0 && this.selectedSensor?.sensor_id === 2) {
+              this.createPressureChart(this.processData(this.sensors));
+            }
+          });
+
+          this.windSpeedCanvases.changes.subscribe((canvases: QueryList<ElementRef<HTMLCanvasElement>>) => {
+            if (canvases.length > 0 && this.selectedSensor?.sensor_id === 2) {
+              this.createWindSpeedChart(this.processData(this.sensors));
+            }
+          });
+
+          this.noiseLevelCanvases.changes.subscribe((canvases: QueryList<ElementRef<HTMLCanvasElement>>) => {
+            if (canvases.length > 0 && this.selectedSensor?.sensor_id === 3) {
+              this.createNoiseLevelChart(this.processData(this.sensors));
+            }
+          });
+
+          this.noiseLevelCanvases.changes.subscribe((canvases: QueryList<ElementRef<HTMLCanvasElement>>) => {
+            if (canvases.length > 0 && this.selectedSensor?.sensor_id === 3) {
+              this.createAirQualityChart(this.processData(this.sensors));
+            }
+          });
+
           this.cdr.detectChanges();
           // Puedes realizar acciones adicionales, como navegar a otra página
         },
