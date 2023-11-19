@@ -109,63 +109,64 @@ export class DashboardComponent {
     this.cdr.detectChanges();
   }
 
-  private getTemperatureChartInstance(canvas: ElementRef<HTMLCanvasElement>): Chart {
-    return this.getChartInstance(canvas, 'Temperatura', 'rgba(255, 99, 132, 0.2)', 'rgba(255, 99, 132, 1)');
+  private getTemperatureChartInstance(canvas: ElementRef<HTMLCanvasElement>, data: any): Chart {
+    return this.getChartInstance(canvas, 'Temperatura', 'rgba(255, 99, 132, 0.2)', 'rgba(255, 99, 132, 1)', data);
   }
 
-  private getHumidityChartInstance(canvas: ElementRef<HTMLCanvasElement>): Chart {
-    return this.getChartInstance(canvas, 'Humedad', 'rgba(99,125,255,0.2)', 'rgb(99,125,255)');
+  private getHumidityChartInstance(canvas: ElementRef<HTMLCanvasElement>, data: any): Chart {
+    return this.getChartInstance(canvas, 'Humedad', 'rgba(99,125,255,0.2)', 'rgb(99,125,255)', data);
   }
 
-  private getPressureChartInstance(canvas: ElementRef<HTMLCanvasElement>): Chart {
-    return this.getChartInstance(canvas, 'Presión', 'rgb(253,216,173)', 'rgba(204,164,127,0.7)');
+  private getPressureChartInstance(canvas: ElementRef<HTMLCanvasElement>, data: any): Chart {
+    return this.getChartInstance(canvas, 'Presión', 'rgb(253,216,173)', 'rgba(204,164,127,0.7)', data);
   }
 
-  private getWindSpeedInstance(canvas: ElementRef<HTMLCanvasElement>): Chart {
-    return this.getChartInstance(canvas, 'Velocidad del viento', 'rgba(82,250,211,0.2)', 'rgb(88,231,210)');
+  private getWindSpeedInstance(canvas: ElementRef<HTMLCanvasElement>, data: any): Chart {
+    return this.getChartInstance(canvas, 'Velocidad del viento', 'rgba(82,250,211,0.2)', 'rgb(88,231,210)', data);
   }
 
-  private getNoiseLevelInstance(canvas: ElementRef<HTMLCanvasElement>): Chart {
-    return this.getChartInstance(canvas, 'Nivel de ruido', 'rgba(153, 102, 255, 0.2)', 'rgba(153, 102, 255, 1)');
+  private getNoiseLevelInstance(canvas: ElementRef<HTMLCanvasElement>, data: any): Chart {
+    return this.getChartInstance(canvas, 'Nivel de ruido', 'rgba(153, 102, 255, 0.2)', 'rgba(153, 102, 255, 1)', data);
   }
 
-  private getAirQualityInstance(canvas: ElementRef<HTMLCanvasElement>): Chart {
-    return this.getChartInstance(canvas, 'Calidad del Aire', 'rgba(82,219,250,0.2)', 'rgb(88,193,231)');
+  private getAirQualityInstance(canvas: ElementRef<HTMLCanvasElement>, data: any): Chart {
+    return this.getChartInstance(canvas, 'Calidad del Aire', 'rgba(82,219,250,0.2)', 'rgb(88,193,231)', data);
   }
 
   private updateTemperatureChart(data: any) {
-    const temperatureChart = this.getTemperatureChartInstance(this.temperatureCanvas);
+    const temperatureChart = this.getTemperatureChartInstance(this.temperatureCanvas, data);
     this.updateChartInstance(temperatureChart, data.labels, data.temperatureData);
   }
 
   private updateHumidityChart(data: any) {
-    const humidityChart = this.getHumidityChartInstance(this.humidityCanvas);
+    const humidityChart = this.getHumidityChartInstance(this.humidityCanvas, data);
     this.updateChartInstance(humidityChart, data.labels, data.humidityData);
   }
 
   private updatePressureChart(data: any) {
-    const pressureChart = this.getPressureChartInstance(this.pressureCanvas);
+    const pressureChart = this.getPressureChartInstance(this.pressureCanvas, data);
     this.updateChartInstance(pressureChart, data.labels, data.pressureData);
   }
 
   private updateWindSpeedChart(data: any) {
-    const windSpeedChart = this.getWindSpeedInstance(this.windSpeedCanvas);
+    const windSpeedChart = this.getWindSpeedInstance(this.windSpeedCanvas, data);
     this.updateChartInstance(windSpeedChart, data.labels, data.windSpeedData);
   }
 
   private updateNoiseLevelChart(data: any) {
-    const noiseLevelChart = this.getNoiseLevelInstance(this.noiseLevelCanvas);
+    const noiseLevelChart = this.getNoiseLevelInstance(this.noiseLevelCanvas, data);
     this.updateChartInstance(noiseLevelChart, data.labels, data.noiseLevelData);
   }
 
   private updateAirQualityChart(data: any) {
-    const airQualityChart = this.getAirQualityInstance(this.airQualityCanvas);
+    const airQualityChart = this.getAirQualityInstance(this.airQualityCanvas, data);
     this.updateChartInstance(airQualityChart, data.labels, data.numericAirQualityData);
   }
 
 
-  private getChartInstance(canvas: ElementRef<HTMLCanvasElement>, label: string, backgroundColor: string, borderColor: string): Chart {
+  private getChartInstance(canvas: ElementRef<HTMLCanvasElement>, label: string, backgroundColor: string, borderColor: string, data: any): Chart {
     const context = canvas.nativeElement.getContext('2d')!;
+    let dataRecord = null;
 
     // Check if there is an existing chart
     const existingChart = Chart.getChart(context);
@@ -175,13 +176,34 @@ export class DashboardComponent {
       existingChart.destroy();
     }
 
+    switch (label) {
+      case 'Temperatura':
+        dataRecord = data.temperatureData;
+        break;
+      case 'Humedad':
+        dataRecord = data.humidityData;
+        break;
+      case 'Presión':
+        dataRecord = data.pressureData;
+        break;
+      case 'Velocidad del viento':
+        dataRecord = data.windSpeedData;
+        break;
+      case 'Nivel de ruido':
+        dataRecord = data.noiseLevelData;
+        break;
+      case 'Calidad del Aire':
+        dataRecord = data.numericAirQualityData;
+        break;
+    }
+
     return new Chart(context, {
       type: 'line',
       data: {
-        labels: [],  // Initial labels
+        labels: data.labels,  // Initial labels
         datasets: [{
           label: label,
-          data: [],  // Initial data
+          data: dataRecord,  // Initial data
           backgroundColor: backgroundColor,
           borderColor: borderColor,
           borderWidth: 1
