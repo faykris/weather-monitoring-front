@@ -135,6 +135,7 @@ export class DashboardComponent {
     console.log('canvas', canvas);
 
     const context = canvas.nativeElement.getContext('2d')!;
+    console.log('context', context);
 
     // Check if there is an existing chart
     const existingChart = Chart.getChart(context);
