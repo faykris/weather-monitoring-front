@@ -347,11 +347,7 @@ export class DashboardComponent {
   }
 
   selectSensor(sensor: any) {
-    console.log('selectSensor');
     this.selectedSensor = sensor;
     this.showMenu = false;
-    //setTimeout(() => this.test1(), 1000)
-
-
   }
 }

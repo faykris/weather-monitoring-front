@@ -4,7 +4,7 @@
     <ul>
       <li *ngFor="let sensor of sensors"
           (click)="selectSensor(sensor)"
-          [ngClass]="selectedSensor.sensor_id === sensor.sensor_id ? 'selected-sensor' : ''"
+          [ngClass]="selectedSensor?.sensor_id === sensor?.sensor_id ? 'selected-sensor' : ''"
       >
         {{ sensor.sensor_name }}
       </li>
@@ -20,7 +20,7 @@
     <ul>
       <li *ngFor="let sensor of sensors"
           (click)="selectSensor(sensor)"
-          [ngClass]="selectedSensor.sensor_id === sensor.sensor_id ? 'selected-sensor' : ''"
+          [ngClass]="selectedSensor?.sensor_id === sensor?.sensor_id ? 'selected-sensor' : ''"
       >
         {{ sensor.sensor_name }}
       </li>
