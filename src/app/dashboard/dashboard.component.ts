@@ -133,7 +133,18 @@ export class DashboardComponent {
 
   private getChartInstance(canvas: ElementRef<HTMLCanvasElement>): Chart {
     console.log('canvas', canvas);
-    return new Chart(canvas.nativeElement.getContext('2d')!, {
+
+    const context = canvas.nativeElement.getContext('2d')!;
+
+    // Check if there is an existing chart
+    const existingChart = Chart.getChart(context);
+
+    // If there is an existing chart, destroy it
+    if (existingChart) {
+      existingChart.destroy();
+    }
+
+    return new Chart(context, {
       type: 'line',
       data: {
         labels: [],  // Initial labels
