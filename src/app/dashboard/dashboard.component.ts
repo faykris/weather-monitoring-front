@@ -15,6 +15,7 @@ export class DashboardComponent {
   public selectedSensor: any = null;
   public showMenu = false;
   public cronJobStatus: string = '';
+  public socket: any;
 
   @ViewChild('temperatureCanvas') temperatureCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('humidityCanvas') humidityCanvas!: ElementRef<HTMLCanvasElement>;
@@ -37,65 +38,40 @@ export class DashboardComponent {
 
   ngOnInit() {
     console.log('listen socket:');
-    const socket: Socket = io('https://weather-monitoring-back-6e19852c45b2.herokuapp.com', {
+    this.socket = io('https://weather-monitoring-back-6e19852c45b2.herokuapp.com', {
       //withCredentials: true,
     });
 
-    socket.on('cronJobUpdate', (data: string) => {
-      this.cronJobStatus = data;
-      console.log('cron job executed:', this.cronJobStatus);
-      this.mainService.getSensors().subscribe(
-        (response) => {
-          this.mainService.setSensors(response);
-          this.getSensors();
-          console.log('sensors:', this.sensors);
-
-          this.temperatureCanvases.changes.subscribe((canvases: QueryList<ElementRef<HTMLCanvasElement>>) => {
-            if (canvases.length > 0 && this.selectedSensor?.sensor_id === 1) {
-              this.createTemperatureChart(this.processData(this.sensors));
-            }
-          });
-
-          this.humidityCanvases.changes.subscribe((canvases: QueryList<ElementRef<HTMLCanvasElement>>) => {
-            if (canvases.length > 0 && this.selectedSensor?.sensor_id === 1) {
-              this.createHumidityChart(this.processData(this.sensors));
-            }
-          });
-
-          this.pressureCanvases.changes.subscribe((canvases: QueryList<ElementRef<HTMLCanvasElement>>) => {
-            if (canvases.length > 0 && this.selectedSensor?.sensor_id === 2) {
-              this.createPressureChart(this.processData(this.sensors));
-            }
-          });
-
-          this.windSpeedCanvases.changes.subscribe((canvases: QueryList<ElementRef<HTMLCanvasElement>>) => {
-            if (canvases.length > 0 && this.selectedSensor?.sensor_id === 2) {
-              this.createWindSpeedChart(this.processData(this.sensors));
-            }
-          });
-
-          this.noiseLevelCanvases.changes.subscribe((canvases: QueryList<ElementRef<HTMLCanvasElement>>) => {
-            if (canvases.length > 0 && this.selectedSensor?.sensor_id === 3) {
-              this.createNoiseLevelChart(this.processData(this.sensors));
-            }
-          });
-
-          this.noiseLevelCanvases.changes.subscribe((canvases: QueryList<ElementRef<HTMLCanvasElement>>) => {
-            if (canvases.length > 0 && this.selectedSensor?.sensor_id === 3) {
-              this.createAirQualityChart(this.processData(this.sensors));
-            }
-          });
-
-          this.cdr.detectChanges();
-          // Puedes realizar acciones adicionales, como navegar a otra página
-        },
-        (error) => {
-          console.error('Error al traer el cron job:', error);
-        }
-      );
+    this.socket.on('cronJobUpdate', (data: string) => {
+      this.handleCronJobUpdate(data);
     });
 
-    this.getSensors();
+    // this.getSensors();
+    this.cdr.detectChanges();
+  }
+
+  ngOnDestroy() {
+    if (this.socket) {
+      this.socket.disconnect();
+    }
+  }
+
+  private handleCronJobUpdate(data: string) {
+    this.cronJobStatus = data;
+    console.log('cron job executed:', this.cronJobStatus);
+    this.mainService.getSensors().subscribe(
+      (response) => {
+        this.mainService.setSensors(response);
+        this.getSensors();
+        console.log('sensors:', this.sensors);
+
+        this.cdr.detectChanges();
+        // Puedes realizar acciones adicionales, como navegar a otra página
+      },
+      (error) => {
+        console.error('Error al traer el cron job:', error);
+      }
+    );
   }
 
   setShowMenu() {
@@ -274,7 +250,7 @@ export class DashboardComponent {
         labels: data.labels,
         datasets: [{
           label: 'Nivel de ruido',
-          data: data.pressureData,
+          data: data.noiseLevelData,
           backgroundColor: 'rgba(153, 102, 255, 0.2)',
           borderColor: 'rgba(153, 102, 255, 1)',
           borderWidth: 1
