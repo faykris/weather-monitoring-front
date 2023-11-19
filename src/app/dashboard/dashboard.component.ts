@@ -43,7 +43,7 @@ export class DashboardComponent {
 
     socket.on('cronJobUpdate', (data: string) => {
       this.cronJobStatus = data;
-      console.log(this.cronJobStatus);
+      console.log('cron job executed:', this.cronJobStatus);
       this.mainService.getSensors().subscribe(
         (response) => {
           this.mainService.setSensors(response);
