@@ -65,13 +65,98 @@ export class DashboardComponent {
         this.getSensors();
         console.log('sensors:', this.sensors);
 
+        // Update charts with new data
+        const processedData = this.processData(this.sensors);
+        this.updateCharts(processedData);
+
         this.cdr.detectChanges();
-        // Puedes realizar acciones adicionales, como navegar a otra página
       },
       (error) => {
         console.error('Error al traer el cron job:', error);
       }
     );
+  }
+  private updateCharts(data: any) {
+    if (this.selectedSensor?.sensor_id === 1) {
+      this.updateTemperatureChart(data);
+      this.updateHumidityChart(data);
+    } else if (this.selectedSensor?.sensor_id === 2) {
+      this.updatePressureChart(data);
+      this.updateWindSpeedChart(data);
+    } else if (this.selectedSensor?.sensor_id === 3) {
+      this.updateNoiseLevelChart(data);
+      this.updateAirQualityChart(data);
+    }
+  }
+
+  private updateTemperatureChart(data: any) {
+    const temperatureChart = this.getChartInstance(this.temperatureCanvas);
+    temperatureChart.data.labels = data.labels;
+    temperatureChart.data.datasets[0].data = data.temperatureData;
+    temperatureChart.update();
+  }
+
+  private updateHumidityChart(data: any) {
+    const humidityChart = this.getChartInstance(this.humidityCanvas);
+    humidityChart.data.labels = data.labels;
+    humidityChart.data.datasets[0].data = data.humidityData;
+    humidityChart.update();
+  }
+
+  private updatePressureChart(data: any) {
+    const pressureChart = this.getChartInstance(this.pressureCanvas);
+    pressureChart.data.labels = data.labels;
+    pressureChart.data.datasets[0].data = data.pressureData;
+    pressureChart.update();
+  }
+
+  private updateWindSpeedChart(data: any) {
+    const windSpeedChart = this.getChartInstance(this.windSpeedCanvas);
+    windSpeedChart.data.labels = data.labels;
+    windSpeedChart.data.datasets[0].data = data.windSpeedData;
+    windSpeedChart.update();
+  }
+
+  private updateNoiseLevelChart(data: any) {
+    const noiseLevelChart = this.getChartInstance(this.noiseLevelCanvas);
+    noiseLevelChart.data.labels = data.labels;
+    noiseLevelChart.data.datasets[0].data = data.noiseLevelData;
+    noiseLevelChart.update();
+  }
+
+  private updateAirQualityChart(data: any) {
+    const airQualityChart = this.getChartInstance(this.airQualityCanvas);
+    airQualityChart.data.labels = data.labels;
+    airQualityChart.data.datasets[0].data = data.numericAirQualityData;
+    airQualityChart.update();
+  }
+
+  private getChartInstance(canvas: ElementRef<HTMLCanvasElement>): Chart {
+    console.log('canvas', canvas);
+    return new Chart(canvas.nativeElement.getContext('2d')!, {
+      type: 'line',
+      data: {
+        labels: [],  // Initial labels
+        datasets: [{
+          label: 'Data Label',
+          data: [],
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          x: {
+            type: 'linear',
+            position: 'bottom'
+          },
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
   }
 
   setShowMenu() {
