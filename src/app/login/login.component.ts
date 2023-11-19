@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, Output} from '@angular/core';
+import { Component, EventEmitter, Input, Output} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MainService } from "../main.service";
 
@@ -19,7 +19,6 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private mainService: MainService,
-    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit() {}
@@ -34,16 +33,13 @@ export class LoginComponent {
 
   login() {
     if (this.loginForm.valid) {
+      // Cargar info de sensores
       this.mainService.getSensors().subscribe(
         (response) => {
-          console.log("responseLogin", response);
           this.mainService.setSensors(response);
           this.isLoggedChange.emit(true);
-          //this.cdr.detectChanges();
-          // Puedes realizar acciones adicionales, como navegar a otra página
         },
         (error) => {
-
           console.error('Error al iniciar sesión:', error);
         }
       );

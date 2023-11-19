@@ -37,9 +37,8 @@ export class DashboardComponent {
   ) {}
 
   ngOnInit() {
-    console.log('listen socket:');
     this.socket = io('https://weather-monitoring-back-6e19852c45b2.herokuapp.com', {
-      //withCredentials: true,
+      // withCredentials: true,
     });
 
     this.socket.on('cronJobUpdate', (data: string) => {
@@ -47,8 +46,7 @@ export class DashboardComponent {
     });
 
     this.getSensors();
-    //this.selectSensor(this.sensors[0]);
-    //this.cdr.detectChanges();
+
     setTimeout(() => {
       this.selectSensor(this.sensors[0]);
     })
@@ -75,9 +73,9 @@ export class DashboardComponent {
         }
       }
     }
+    // Recargar las gráficas
     if (this.temperatureCanvas) {
       destroyChart(this.temperatureCanvas);
-      console.log('it worked?');
       this.createTemperatureChart(this.processData(this.sensors));
     }
     if (this.humidityCanvas) {
@@ -104,176 +102,16 @@ export class DashboardComponent {
 
   private handleCronJobUpdate(data: string) {
     this.cronJobStatus = data;
-    console.log('cron job executed:', this.cronJobStatus);
+    console.log(this.cronJobStatus);
     this.mainService.getSensors().subscribe(
       (response) => {
-        console.log("responseCron", response);
         this.mainService.setSensors(response);
-        //this.getSensors();
-        //console.log('sensors:', this.sensors);
-
         this.destroyAndUpdate()
       },
       (error) => {
         console.error('Error al traer el cron job:', error);
       }
     );
-  }
-
-  private updateCharts(data: any) {
-    if (this.selectedSensor?.sensor_id === 1) {
-      this.updateTemperatureChart(data);
-      this.updateHumidityChart(data);
-    } else if (this.selectedSensor?.sensor_id === 2) {
-      this.updatePressureChart(data);
-      this.updateWindSpeedChart(data);
-    } else if (this.selectedSensor?.sensor_id === 3) {
-      this.updateNoiseLevelChart(data);
-      this.updateAirQualityChart(data);
-    }
-  }
-
-  private updateChartInstance(chart: Chart, labels: any[], data: any[]) {
-    if (!chart.data.datasets || chart.data.datasets.length === 0) {
-      chart.data.datasets = [{
-        label: 'Default',
-        data: data,
-        backgroundColor: '',
-        borderColor: '',
-        borderWidth: 1
-      }];
-    }
-
-    chart.data.labels = labels;
-    chart.data.datasets[0].data = data;
-    chart.update();
-
-    this.cdr.detectChanges();
-  }
-
-  private getTemperatureChartInstance(canvas: ElementRef<HTMLCanvasElement>, data: any): Chart {
-    return this.getChartInstance(canvas, 'Temperatura', 'rgba(255, 99, 132, 0.2)', 'rgba(255, 99, 132, 1)', data);
-  }
-
-  private getHumidityChartInstance(canvas: ElementRef<HTMLCanvasElement>, data: any): Chart {
-    return this.getChartInstance(canvas, 'Humedad', 'rgba(99,125,255,0.2)', 'rgb(99,125,255)', data);
-  }
-
-  private getPressureChartInstance(canvas: ElementRef<HTMLCanvasElement>, data: any): Chart {
-    return this.getChartInstance(canvas, 'Presión', 'rgb(253,216,173)', 'rgba(204,164,127,0.7)', data);
-  }
-
-  private getWindSpeedInstance(canvas: ElementRef<HTMLCanvasElement>, data: any): Chart {
-    return this.getChartInstance(canvas, 'Velocidad del viento', 'rgba(82,250,211,0.2)', 'rgb(88,231,210)', data);
-  }
-
-  private getNoiseLevelInstance(canvas: ElementRef<HTMLCanvasElement>, data: any): Chart {
-    return this.getChartInstance(canvas, 'Nivel de ruido', 'rgba(153, 102, 255, 0.2)', 'rgba(153, 102, 255, 1)', data);
-  }
-
-  private getAirQualityInstance(canvas: ElementRef<HTMLCanvasElement>, data: any): Chart {
-    return this.getChartInstance(canvas, 'Calidad del Aire', 'rgba(82,219,250,0.2)', 'rgb(88,193,231)', data);
-  }
-
-  private updateTemperatureChart(data: any) {
-    const temperatureChart = this.getTemperatureChartInstance(this.temperatureCanvas, data);
-    console.log('temperature chart', temperatureChart);
-    // this.updateChartInstance(temperatureChart, data.labels, data.temperatureData);
-  }
-
-  private updateHumidityChart(data: any) {
-    const humidityChart = this.getHumidityChartInstance(this.humidityCanvas, data);
-    console.log('humidity chart', humidityChart);
-
-    // this.updateChartInstance(humidityChart, data.labels, data.humidityData);
-  }
-
-  private updatePressureChart(data: any) {
-    const pressureChart = this.getPressureChartInstance(this.pressureCanvas, data);
-    console.log('pressure chart', pressureChart);
-
-    // this.updateChartInstance(pressureChart, data.labels, data.pressureData);
-  }
-
-  private updateWindSpeedChart(data: any) {
-    const windSpeedChart = this.getWindSpeedInstance(this.windSpeedCanvas, data);
-    console.log('windSpeed chart', windSpeedChart);
-
-    // this.updateChartInstance(windSpeedChart, data.labels, data.windSpeedData);
-  }
-
-  private updateNoiseLevelChart(data: any) {
-    const noiseLevelChart = this.getNoiseLevelInstance(this.noiseLevelCanvas, data);
-    console.log('noiseLevel chart', noiseLevelChart);
-
-    // this.updateChartInstance(noiseLevelChart, data.labels, data.noiseLevelData);
-  }
-
-  private updateAirQualityChart(data: any) {
-    const airQualityChart = this.getAirQualityInstance(this.airQualityCanvas, data);
-    console.log('airQualityChart chart', airQualityChart);
-
-    // this.updateChartInstance(airQualityChart, data.labels, data.numericAirQualityData);
-  }
-
-
-  private getChartInstance(canvas: ElementRef<HTMLCanvasElement>, label: string, backgroundColor: string, borderColor: string, data: any): Chart {
-    const context = canvas.nativeElement.getContext('2d')!;
-    let dataRecord = null;
-
-    // Check if there is an existing chart
-    const existingChart = Chart.getChart(context);
-
-    // If there is an existing chart, destroy it
-    if (existingChart) {
-      existingChart.destroy();
-    }
-
-    switch (label) {
-      case 'Temperatura':
-        dataRecord = data.temperatureData;
-        break;
-      case 'Humedad':
-        dataRecord = data.humidityData;
-        break;
-      case 'Presión':
-        dataRecord = data.pressureData;
-        break;
-      case 'Velocidad del viento':
-        dataRecord = data.windSpeedData;
-        break;
-      case 'Nivel de ruido':
-        dataRecord = data.noiseLevelData;
-        break;
-      case 'Calidad del Aire':
-        dataRecord = data.numericAirQualityData;
-        break;
-    }
-
-    return new Chart(context, {
-      type: 'line',
-      data: {
-        labels: data.labels,  // Initial labels
-        datasets: [{
-          label: label,
-          data: dataRecord,  // Initial data
-          backgroundColor: backgroundColor,
-          borderColor: borderColor,
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          x: {
-            type: 'linear',
-            position: 'bottom'
-          },
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
   }
 
   setShowMenu() {
