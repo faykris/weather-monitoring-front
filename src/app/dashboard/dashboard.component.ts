@@ -56,7 +56,7 @@ export class DashboardComponent {
     }
   }
 
-  private test1() {
+  private destroyAndUpdate() {
 
     this.getSensors();
     console.log('sensors:', this.sensors);
@@ -105,33 +105,10 @@ export class DashboardComponent {
       (response) => {
         console.log("responseCron", response);
         this.mainService.setSensors(response);
-        this.getSensors();
-        console.log('sensors:', this.sensors);
+        //this.getSensors();
+        //console.log('sensors:', this.sensors);
 
-        // Update charts with new data
-        //const processedData = this.processData(this.sensors);
-        //this.updateCharts(processedData);
-      const getChart = (canvas: ElementRef<HTMLCanvasElement>) => {
-        const context = canvas.nativeElement.getContext('2d')!;
-
-        // Check if there is an existing chart
-        const existingChart = Chart.getChart(context);
-
-        // If there is an existing chart, destroy it
-        if (existingChart) {
-          existingChart.destroy();
-        }
-
-        return existingChart;
-      }
-      getChart(this.temperatureCanvas);
-      this.createTemperatureChart(this.processData(this.sensors));
-      getChart(this.humidityCanvas);
-      this.createHumidityChart(this.processData(this.sensors));
-
-
-
-        //this.cdr.detectChanges();
+        this.destroyAndUpdate()
       },
       (error) => {
         console.error('Error al traer el cron job:', error);
