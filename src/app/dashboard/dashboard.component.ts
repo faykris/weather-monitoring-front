@@ -61,15 +61,22 @@ export class DashboardComponent {
     console.log('cron job executed:', this.cronJobStatus);
     this.mainService.getSensors().subscribe(
       (response) => {
+        console.log("responseCron", response);
         this.mainService.setSensors(response);
         this.getSensors();
         console.log('sensors:', this.sensors);
 
         // Update charts with new data
-        const processedData = this.processData(this.sensors);
-        this.updateCharts(processedData);
+        //const processedData = this.processData(this.sensors);
+        //this.updateCharts(processedData);
 
-        this.cdr.detectChanges();
+      this.createTemperatureChart(this.processData(this.sensors));
+
+      this.createHumidityChart(this.processData(this.sensors));
+
+
+
+        //this.cdr.detectChanges();
       },
       (error) => {
         console.error('Error al traer el cron job:', error);

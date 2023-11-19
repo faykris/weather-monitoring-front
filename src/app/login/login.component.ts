@@ -34,16 +34,12 @@ export class LoginComponent {
 
   login() {
     if (this.loginForm.valid) {
-      const user = this.loginForm.get('user')?.value;
-      const password = this.loginForm.get('password')?.value;
-
-      console.log('Iniciando sesión con:', user, password);
-
       this.mainService.getSensors().subscribe(
         (response) => {
+          console.log("responseLogin", response);
           this.mainService.setSensors(response);
           this.isLoggedChange.emit(true);
-          this.cdr.detectChanges();
+          //this.cdr.detectChanges();
           // Puedes realizar acciones adicionales, como navegar a otra página
         },
         (error) => {
