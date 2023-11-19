@@ -90,52 +90,54 @@ export class DashboardComponent {
   }
 
   private updateTemperatureChart(data: any) {
-    const temperatureChart = this.getChartInstance(this.temperatureCanvas);
+    const temperatureChart = this.getChartInstance(this.temperatureCanvas, data);
     temperatureChart.data.labels = data.labels;
     temperatureChart.data.datasets[0].data = data.temperatureData;
     temperatureChart.update();
   }
 
   private updateHumidityChart(data: any) {
-    const humidityChart = this.getChartInstance(this.humidityCanvas);
+    const humidityChart = this.getChartInstance(this.humidityCanvas, data);
     humidityChart.data.labels = data.labels;
     humidityChart.data.datasets[0].data = data.humidityData;
     humidityChart.update();
   }
 
   private updatePressureChart(data: any) {
-    const pressureChart = this.getChartInstance(this.pressureCanvas);
+    const pressureChart = this.getChartInstance(this.pressureCanvas, data);
     pressureChart.data.labels = data.labels;
     pressureChart.data.datasets[0].data = data.pressureData;
     pressureChart.update();
   }
 
   private updateWindSpeedChart(data: any) {
-    const windSpeedChart = this.getChartInstance(this.windSpeedCanvas);
+    const windSpeedChart = this.getChartInstance(this.windSpeedCanvas, data);
     windSpeedChart.data.labels = data.labels;
     windSpeedChart.data.datasets[0].data = data.windSpeedData;
     windSpeedChart.update();
   }
 
   private updateNoiseLevelChart(data: any) {
-    const noiseLevelChart = this.getChartInstance(this.noiseLevelCanvas);
+    const noiseLevelChart = this.getChartInstance(this.noiseLevelCanvas, data);
     noiseLevelChart.data.labels = data.labels;
     noiseLevelChart.data.datasets[0].data = data.noiseLevelData;
     noiseLevelChart.update();
   }
 
   private updateAirQualityChart(data: any) {
-    const airQualityChart = this.getChartInstance(this.airQualityCanvas);
+    const airQualityChart = this.getChartInstance(this.airQualityCanvas, data);
     airQualityChart.data.labels = data.labels;
     airQualityChart.data.datasets[0].data = data.numericAirQualityData;
     airQualityChart.update();
   }
 
-  private getChartInstance(canvas: ElementRef<HTMLCanvasElement>): Chart {
+  private getChartInstance(canvas: ElementRef<HTMLCanvasElement>, data: any): Chart {
     console.log('canvas', canvas);
 
     const context = canvas.nativeElement.getContext('2d')!;
     console.log('context', context);
+
+    console.log('data', data);
 
     // Check if there is an existing chart
     const existingChart = Chart.getChart(context);
@@ -148,10 +150,10 @@ export class DashboardComponent {
     return new Chart(context, {
       type: 'line',
       data: {
-        labels: [],  // Initial labels
+        labels: [data.labels],  // Initial labels
         datasets: [{
           label: 'Data Label',
-          data: [],
+          data: [data.temperatureData],
           backgroundColor: 'rgba(255, 99, 132, 0.2)',
           borderColor: 'rgba(255, 99, 132, 1)',
           borderWidth: 1
