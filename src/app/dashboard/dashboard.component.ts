@@ -56,6 +56,48 @@ export class DashboardComponent {
     }
   }
 
+  private test1() {
+
+    this.getSensors();
+    console.log('sensors:', this.sensors);
+
+    const destroyChart = (canvas: ElementRef<HTMLCanvasElement> | undefined) => {
+      if (canvas) {
+        const context = canvas.nativeElement.getContext('2d')!;
+        const existingChart = Chart.getChart(context);
+
+        if (existingChart) {
+          existingChart.destroy();
+        }
+      }
+    }
+    if (this.temperatureCanvas) {
+      destroyChart(this.temperatureCanvas);
+      console.log('it worked?');
+      this.createTemperatureChart(this.processData(this.sensors));
+    }
+    if (this.humidityCanvas) {
+      destroyChart(this.humidityCanvas);
+      this.createHumidityChart(this.processData(this.sensors));
+    }
+    if (this.pressureCanvas) {
+      destroyChart(this.pressureCanvas);
+      this.createHumidityChart(this.processData(this.sensors));
+    }
+    if (this.windSpeedCanvas) {
+      destroyChart(this.windSpeedCanvas);
+      this.createHumidityChart(this.processData(this.sensors));
+    }
+    if (this.noiseLevelCanvas) {
+      destroyChart(this.noiseLevelCanvas);
+      this.createHumidityChart(this.processData(this.sensors));
+    }
+    if (this.airQualityCanvas) {
+      destroyChart(this.airQualityCanvas);
+      this.createHumidityChart(this.processData(this.sensors));
+    }
+  }
+
   private handleCronJobUpdate(data: string) {
     this.cronJobStatus = data;
     console.log('cron job executed:', this.cronJobStatus);
@@ -69,9 +111,22 @@ export class DashboardComponent {
         // Update charts with new data
         //const processedData = this.processData(this.sensors);
         //this.updateCharts(processedData);
+      const getChart = (canvas: ElementRef<HTMLCanvasElement>) => {
+        const context = canvas.nativeElement.getContext('2d')!;
 
+        // Check if there is an existing chart
+        const existingChart = Chart.getChart(context);
+
+        // If there is an existing chart, destroy it
+        if (existingChart) {
+          existingChart.destroy();
+        }
+
+        return existingChart;
+      }
+      getChart(this.temperatureCanvas);
       this.createTemperatureChart(this.processData(this.sensors));
-
+      getChart(this.humidityCanvas);
       this.createHumidityChart(this.processData(this.sensors));
 
 
@@ -473,7 +528,11 @@ export class DashboardComponent {
   }
 
   selectSensor(sensor: any) {
+    console.log('selectSensor');
     this.selectedSensor = sensor;
     this.showMenu = false;
+    //setTimeout(() => this.test1(), 1000)
+
+
   }
 }
