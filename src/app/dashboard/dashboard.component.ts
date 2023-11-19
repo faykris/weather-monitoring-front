@@ -47,7 +47,11 @@ export class DashboardComponent {
     });
 
     this.getSensors();
+    //this.selectSensor(this.sensors[0]);
     //this.cdr.detectChanges();
+    setTimeout(() => {
+      this.selectSensor(this.sensors[0]);
+    })
   }
 
   ngOnDestroy() {
