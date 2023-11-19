@@ -103,6 +103,9 @@ export class DashboardComponent {
     chart.data.labels = labels;
     chart.data.datasets[0].data = data;
     chart.update();
+    console.log('data to chart', data);
+    console.log('chart',chart);
+    this.cdr.detectChanges();
   }
 
   private getTemperatureChartInstance(canvas: ElementRef<HTMLCanvasElement>): Chart {
