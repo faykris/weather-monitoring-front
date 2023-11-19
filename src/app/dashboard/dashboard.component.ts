@@ -46,8 +46,8 @@ export class DashboardComponent {
       this.handleCronJobUpdate(data);
     });
 
-    // this.getSensors();
-    this.cdr.detectChanges();
+    this.getSensors();
+    //this.cdr.detectChanges();
   }
 
   ngOnDestroy() {
