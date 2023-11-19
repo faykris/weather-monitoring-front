@@ -93,8 +93,8 @@ export class DashboardComponent {
   private updateChartInstance(chart: Chart, labels: any[], data: any[]) {
     if (!chart.data.datasets || chart.data.datasets.length === 0) {
       chart.data.datasets = [{
-        label: '',
-        data: [],
+        label: 'Default',
+        data: data,
         backgroundColor: '',
         borderColor: '',
         borderWidth: 1
@@ -104,8 +104,7 @@ export class DashboardComponent {
     chart.data.labels = labels;
     chart.data.datasets[0].data = data;
     chart.update();
-    console.log('data to chart', data);
-    console.log('chart', chart);
+
     this.cdr.detectChanges();
   }
 
@@ -135,32 +134,43 @@ export class DashboardComponent {
 
   private updateTemperatureChart(data: any) {
     const temperatureChart = this.getTemperatureChartInstance(this.temperatureCanvas, data);
-    this.updateChartInstance(temperatureChart, data.labels, data.temperatureData);
+    console.log('temperature chart', temperatureChart);
+    // this.updateChartInstance(temperatureChart, data.labels, data.temperatureData);
   }
 
   private updateHumidityChart(data: any) {
     const humidityChart = this.getHumidityChartInstance(this.humidityCanvas, data);
-    this.updateChartInstance(humidityChart, data.labels, data.humidityData);
+    console.log('humidity chart', humidityChart);
+
+    // this.updateChartInstance(humidityChart, data.labels, data.humidityData);
   }
 
   private updatePressureChart(data: any) {
     const pressureChart = this.getPressureChartInstance(this.pressureCanvas, data);
-    this.updateChartInstance(pressureChart, data.labels, data.pressureData);
+    console.log('pressure chart', pressureChart);
+
+    // this.updateChartInstance(pressureChart, data.labels, data.pressureData);
   }
 
   private updateWindSpeedChart(data: any) {
     const windSpeedChart = this.getWindSpeedInstance(this.windSpeedCanvas, data);
-    this.updateChartInstance(windSpeedChart, data.labels, data.windSpeedData);
+    console.log('windSpeed chart', windSpeedChart);
+
+    // this.updateChartInstance(windSpeedChart, data.labels, data.windSpeedData);
   }
 
   private updateNoiseLevelChart(data: any) {
     const noiseLevelChart = this.getNoiseLevelInstance(this.noiseLevelCanvas, data);
-    this.updateChartInstance(noiseLevelChart, data.labels, data.noiseLevelData);
+    console.log('noiseLevel chart', noiseLevelChart);
+
+    // this.updateChartInstance(noiseLevelChart, data.labels, data.noiseLevelData);
   }
 
   private updateAirQualityChart(data: any) {
     const airQualityChart = this.getAirQualityInstance(this.airQualityCanvas, data);
-    this.updateChartInstance(airQualityChart, data.labels, data.numericAirQualityData);
+    console.log('airQualityChart chart', airQualityChart);
+
+    // this.updateChartInstance(airQualityChart, data.labels, data.numericAirQualityData);
   }
 
 
