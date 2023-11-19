@@ -82,19 +82,19 @@ export class DashboardComponent {
     }
     if (this.pressureCanvas) {
       destroyChart(this.pressureCanvas);
-      this.createHumidityChart(this.processData(this.sensors));
+      this.createPressureChart(this.processData(this.sensors));
     }
     if (this.windSpeedCanvas) {
       destroyChart(this.windSpeedCanvas);
-      this.createHumidityChart(this.processData(this.sensors));
+      this.createWindSpeedChart(this.processData(this.sensors));
     }
     if (this.noiseLevelCanvas) {
       destroyChart(this.noiseLevelCanvas);
-      this.createHumidityChart(this.processData(this.sensors));
+      this.createNoiseLevelChart(this.processData(this.sensors));
     }
     if (this.airQualityCanvas) {
       destroyChart(this.airQualityCanvas);
-      this.createHumidityChart(this.processData(this.sensors));
+      this.createAirQualityChart(this.processData(this.sensors));
     }
   }
 
