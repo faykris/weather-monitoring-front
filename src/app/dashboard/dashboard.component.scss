@@ -55,7 +55,6 @@
   height: auto;
   padding: 3vw 3vw 0 3vw;
   display: flex;
-  box-shadow: 2px 2px 15px 5px rgba(0, 0, 0, 0.2);
   .aside {
     width: 20vw;
     background-color: var(--soft-blue);
@@ -100,10 +99,9 @@
       }
     }
     canvas {
-      border-radius: 10px;
-      box-shadow: 2px 2px 20px 1px rgba(0, 0, 90, 0.2);
+      border-radius: 10px 10px 0 0;
+      box-shadow: 5px 30px 70px 1px rgba(0, 0, 90, 0.1);
       background-color: white;
-      margin-bottom: 2rem;
       padding: 1.5vw;
       width: 50vw !important;
       min-width: 17rem;
@@ -139,6 +137,24 @@
   cursor: auto !important;
 }
 
+.graph-info {
+  background-color: white;
+  width: 50vw;
+  z-index: 1;
+  margin-bottom: 2rem;
+  padding: .5rem 1rem;
+  border-radius: 0 0 10px 10px;
+  color: darkgrey;
+  span {
+    color: var(--medium-blue);
+    font-weight: 600;
+    opacity: .8;
+    &:nth-child(2) {
+      margin-left: 1rem;
+    }
+  }
+}
+
 @media screen and (max-width: 580px) {
   .navbar {
     display: flex;
@@ -158,5 +174,15 @@
       min-height: 37rem;
     }
   }
+
+  .graph-info {
+    font-size: 2.4vw;
+    width: 100%;
+  }
 }
 
+@media screen and (max-width: 420px) {
+  .graph-info {
+    font-size: 3vw;
+  }
+}

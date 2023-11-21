@@ -32,11 +32,35 @@
     </div>
     <div [ngSwitch]="selectedSensor?.sensor_id">
       <canvas *ngSwitchCase="1" #temperatureCanvas></canvas>
+      <p class="graph-info" *ngSwitchCase="1">
+        <span>Promedio:</span> {{avgTemperature.toFixed(2)}}
+        <span>Var. Estándar:</span> {{sdTemperature.toFixed(2)}}
+      </p>
       <canvas *ngSwitchCase="1" #humidityCanvas></canvas>
+      <p class="graph-info" *ngSwitchCase="1">
+        <span>Promedio:</span> {{avgHumidity.toFixed(2)}}
+        <span>Var. Estándar:</span> {{sdHumidity.toFixed(2)}}
+      </p>
       <canvas *ngSwitchCase="2" #pressureCanvas></canvas>
+      <p class="graph-info" *ngSwitchCase="2">
+        <span>Promedio:</span> {{avgPressure.toFixed(2)}}
+        <span>Var. Estándar:</span> {{sdPressure.toFixed(2)}}
+      </p>
       <canvas *ngSwitchCase="2" #windSpeedCanvas></canvas>
+      <p class="graph-info" *ngSwitchCase="2">
+        <span>Promedio:</span> {{avgWindSpeed.toFixed(2)}}
+        <span>Var. Estándar:</span> {{sdWindSpeed.toFixed(2)}}
+      </p>
       <canvas *ngSwitchCase="3" #noiseLevelCanvas></canvas>
+      <p class="graph-info" *ngSwitchCase="3">
+        <span>Promedio:</span> {{avgNoiseLevel.toFixed(2)}}
+        <span>Var. Estándar:</span> {{sdNoiseLevel.toFixed(2)}}
+      </p>
       <canvas *ngSwitchCase="3" #airQualityCanvas></canvas>
+      <p class="graph-info" *ngSwitchCase="3">
+        <span>Promedio:</span> {{avgAirQuality.toFixed(2)}}
+        <span>Var. Estándar:</span> {{sdAirQuality.toFixed(2)}}
+      </p>
     </div>
   </div>
 </div>
