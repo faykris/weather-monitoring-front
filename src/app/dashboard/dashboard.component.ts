@@ -16,6 +16,18 @@ export class DashboardComponent {
   public showMenu = false;
   public cronJobStatus: string = '';
   public socket: any;
+  public avgTemperature: any;
+  public sdTemperature: any;
+  public avgHumidity: any;
+  public sdHumidity: any;
+  public avgPressure: any;
+  public sdPressure: any;
+  public avgWindSpeed: any;
+  public sdWindSpeed: any;
+  public avgNoiseLevel: any;
+  public sdNoiseLevel: any;
+  public avgAirQuality: any;
+  public sdAirQuality: any;
 
   @ViewChild('temperatureCanvas') temperatureCanvas!: ElementRef<HTMLCanvasElement>;
   @ViewChild('humidityCanvas') humidityCanvas!: ElementRef<HTMLCanvasElement>;
@@ -192,6 +204,17 @@ export class DashboardComponent {
   }
 
   createTemperatureChart(data: any) {
+    this.avgTemperature = (
+      data.temperatureData.reduce((a: number, b: number) => a + b, 0) / data.temperatureData
+    );
+
+    const sqrtSum = data.temperatureData.reduce(
+      (sqrtSum: number, valor: number) => {
+        return sqrtSum + Math.pow(valor - this.avgTemperature, 2);
+    }, 0);
+
+    this.sdTemperature = Math.sqrt(sqrtSum / data.temperatureData.length);
+
     const temperatureChart = new Chart(this.temperatureCanvas.nativeElement.getContext('2d')!, {
       type: 'line',
       data: {
@@ -215,6 +238,17 @@ export class DashboardComponent {
   }
 
   createHumidityChart(data: any) {
+    this.avgHumidity = (
+      data.humidityData.reduce((a: number, b: number) => a + b, 0) / data.humidityData
+    );
+
+    const sqrtSum = data.humidityData.reduce(
+      (sqrtSum: number, valor: number) => {
+        return sqrtSum + Math.pow(valor - this.avgHumidity, 2);
+      }, 0);
+
+    this.sdHumidity = Math.sqrt(sqrtSum / data.humidityData.length);
+
     const humidityChart = new Chart(this.humidityCanvas.nativeElement.getContext('2d')!, {
       type: 'line',
       data: {
@@ -238,6 +272,17 @@ export class DashboardComponent {
   }
 
   createPressureChart(data: any) {
+    this.avgPressure = (
+      data.pressureData.reduce((a: number, b: number) => a + b, 0) / data.pressureData
+    );
+
+    const sqrtSum = data.pressureData.reduce(
+      (sqrtSum: number, valor: number) => {
+        return sqrtSum + Math.pow(valor - this.avgPressure, 2);
+      }, 0);
+
+    this.sdPressure = Math.sqrt(sqrtSum / data.pressureData.length);
+
     const pressureChart = new Chart(this.pressureCanvas.nativeElement.getContext('2d')!, {
       type: 'line',
       data: {
@@ -261,6 +306,17 @@ export class DashboardComponent {
   }
 
   createWindSpeedChart(data: any) {
+    this.avgWindSpeed = (
+      data.windSpeedData.reduce((a: number, b: number) => a + b, 0) / data.windSpeedData
+    );
+
+    const sqrtSum = data.windSpeedData.reduce(
+      (sqrtSum: number, valor: number) => {
+        return sqrtSum + Math.pow(valor - this.avgWindSpeed, 2);
+      }, 0);
+
+    this.sdWindSpeed = Math.sqrt(sqrtSum / data.windSpeedData.length);
+
     const windSpeedChart = new Chart(this.windSpeedCanvas.nativeElement.getContext('2d')!, {
       type: 'line',
       data: {
@@ -284,6 +340,17 @@ export class DashboardComponent {
   }
 
   createNoiseLevelChart(data: any) {
+    this.avgNoiseLevel = (
+      data.noiseLevelData.reduce((a: number, b: number) => a + b, 0) / data.noiseLevelData
+    );
+
+    const sqrtSum = data.noiseLevelData.reduce(
+      (sqrtSum: number, valor: number) => {
+        return sqrtSum + Math.pow(valor - this.avgNoiseLevel, 2);
+      }, 0);
+
+    this.sdNoiseLevel = Math.sqrt(sqrtSum / data.noiseLevelData.length);
+
     const noiseLevelChart = new Chart(this.noiseLevelCanvas.nativeElement.getContext('2d')!, {
       type: 'line',
       data: {
@@ -307,6 +374,17 @@ export class DashboardComponent {
   }
 
   createAirQualityChart(data: any) {
+    this.avgAirQuality = (
+      data.numericAirQualityData.reduce((a: number, b: number) => a + b, 0) / data.numericAirQualityData
+    );
+
+    const sqrtSum = data.numericAirQualityData.reduce(
+      (sqrtSum: number, valor: number) => {
+        return sqrtSum + Math.pow(valor - this.avgAirQuality, 2);
+      }, 0);
+
+    this.sdAirQuality = Math.sqrt(sqrtSum / data.numericAirQualityData.length);
+
     const context = this.airQualityCanvas.nativeElement.getContext('2d');
     if (context) {
       const airQualityChart = new Chart(context, {
