@@ -1,5 +1,9 @@
-# WeatherMonitoringFront
+# Weather Monitoring Front
 
+## URL Web Project
+You can access to deployed project [here](https://weather-monitoring-front.netlify.app/). Real time loading graphics only works in this link, not in local environment.
+
+## Generated project
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.3.
 
 ## Development server

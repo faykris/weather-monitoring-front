@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class MainService {
-  private apiUrl = 'https://weather-monitoring-back-6e19852c45b2.herokuapp.com';
+  // URL Heroku will be removed: https://weather-monitoring-back-6e19852c45b2.herokuapp.com
+  private apiUrl = 'https://weather-monitoring-back.vercel.app';
   public isLogged = false;
   public sensors: any[] = [];
 
