@@ -1,4 +1,6 @@
-# Weather Monitoring Front
+# Weather Monitoring (Frontend)
+
+![weather-monitoring](./images/weather-monitoring.jpg)
 
 ## URL Web Project
 You can access to deployed project [here](https://weather-monitoring-front.netlify.app/). Real time loading graphics only works in this link, not in local environment.
