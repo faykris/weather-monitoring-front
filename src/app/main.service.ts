@@ -6,9 +6,10 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class MainService {
+  // http://localhost:3000
   // https://weather-monitoring-back.vercel.app
-  // https://weather-monitoring-back-6e19852c45b2.herokuapp.com
-  private apiUrl = 'https://weather-monitoring-back-6e19852c45b2.herokuapp.com';
+  // ! https://weather-monitoring-back-6e19852c45b2.herokuapp.com - DELETED
+  private apiUrl = 'https://weather-monitoring-back.vercel.app';
   public isLogged = false;
   public sensors: any[] = [];
 

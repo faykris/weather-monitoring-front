@@ -49,7 +49,10 @@ export class DashboardComponent {
   ) {}
 
   ngOnInit() {
-    this.socket = io('https://weather-monitoring-back-6e19852c45b2.herokuapp.com', {
+    // http://localhost:3000
+    // https://weather-monitoring-back.vercel.app
+    //! https://weather-monitoring-back-6e19852c45b2.herokuapp.com - DELETED
+    this.socket = io('https://weather-monitoring-back.vercel.app', {
       // withCredentials: true,
     });
 
